@@ -1,12 +1,20 @@
 class RegistrationsController < ApplicationController
+	skip_before_action :authorize
+	
 	def create
-		user = User.create!(email: params[:email], password: params[:password], password_confirmation: params[:password])
+		user = User.new(user_params)
+		user.password_confirmation = params[:password]
 
-		if user
+		if user.save
 			session[:user_id] = user.id
 			render json: { status: :created, user: user }
 		else
-			render json: { status: 500 }
+			render json: { status: 500, error: { msg: "Oops!, please try again." } }
 		end
 	end
+
+	private
+		def user_params
+			params.require(:user).permit(:email, :password)
+		end
 end
