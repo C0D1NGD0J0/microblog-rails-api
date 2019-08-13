@@ -13,6 +13,11 @@ class ArticlesController < ApplicationController
 
 	def create
 		article = Article.new(article_params)
+		begin article.save!
+			render json: { status: :created, article: article, msg: "Article successfully created." }
+		rescue
+			render json: { status: :unprocessable_entity }
+		end
 	end
 
 	private
