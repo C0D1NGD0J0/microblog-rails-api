@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
 	skip_before_action :authorize
 	include CurrentUserConcern
+	include SerializeResource
 
 	def create
 		user = User.find_by(email: params['email']).try(:authenticate, params['password'])
@@ -20,7 +21,7 @@ class SessionsController < ApplicationController
 		if @current_user
 			render json: {
 				isLoggedIn: true,
-				user: @current_user
+				user: parse_user_json.new(@current_user)
 			}
 		else
 			render json: {
@@ -31,6 +32,6 @@ class SessionsController < ApplicationController
 
 	def logout
 		reset_session
-		render json: { status: 200, isLoggedIn: false }
+		render json: { status: 200, isLoggedIn: false, msg: "Logout successful." }
 	end
 end

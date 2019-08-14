@@ -35,6 +35,7 @@ gem 'bcrypt', '~> 3.1', '>= 3.1.13'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'kaminari'
 gem 'slug'
+gem 'fast_jsonapi'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false

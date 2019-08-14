@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 		post "/login", to: "sessions#create"
 		post "/signup", to: "registrations#create", as: "signup"
 		delete "/logout", to: "sessions#logout"
-		resources :articles, only: [:index, :create, :update, :show, :destroy]
+		resources :articles
 	end
 
 	root to: "static#home"
