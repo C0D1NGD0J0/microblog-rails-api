@@ -17,6 +17,7 @@ class ArticlesController < ApplicationController
 
 	def create
 		article = @current_user.articles.build(article_params)
+		authorize article
 		begin article.save!
 			render json: { status: :created, article: article, msg: "Article successfully created." }
 		rescue
@@ -26,6 +27,7 @@ class ArticlesController < ApplicationController
 
 	def update
 		article = @current_user.articles.find(params[:id])
+		authorize article
 		begin 
 			article.update_attributes!(article_params)
 			render json: { status: :ok, article: parse_article_json(article) }
@@ -36,6 +38,7 @@ class ArticlesController < ApplicationController
 
 	def destroy
 		article = @current_user.articles.find(params[:id])
+		authorize article
 		article.destroy
 		render json: { status: 200, msg: "Article has been deleted." }
 	end
